@@ -6,11 +6,11 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// Чтение данных из JSON файла
+
 const readProductsData = async () => {
   try {
     const data = await fs.readFile(path.join(__dirname, 'data', 'products.json'), 'utf8');
@@ -21,7 +21,7 @@ const readProductsData = async () => {
   }
 };
 
-// Функция для фильтрации продуктов
+
 const filterProducts = (products, filters) => {
   return products.filter(product => {
     // Фильтрация по категории
@@ -37,7 +37,7 @@ const filterProducts = (products, filters) => {
       return false;
     }
 
-    // Фильтрация по размерам
+  
     if (filters.minLength && product.dimensions.length < Number(filters.minLength)) {
       return false;
     }
@@ -62,10 +62,10 @@ app.get('/api/products', async (req, res) => {
     const data = await readProductsData();
     let products = [...data.products];
 
-    // Применяем фильтры
+   
     products = filterProducts(products, filters);
 
-    // Пагинация
+
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const paginatedProducts = products.slice(startIndex, endIndex);
@@ -88,7 +88,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// Получение продукта по ID
+
 app.get('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -106,7 +106,6 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-// Получение списка категорий
 app.get('/api/categories', async (req, res) => {
   try {
     const data = await readProductsData();
@@ -118,7 +117,6 @@ app.get('/api/categories', async (req, res) => {
   }
 });
 
-// Запуск сервера
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 }); 
