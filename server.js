@@ -55,7 +55,7 @@ const filterProducts = (products, filters) => {
   });
 };
 
-// Получение списка продуктов с пагинацией
+
 app.get('/api/products', async (req, res) => {
   try {
     const { page = 1, limit = 10, ...filters } = req.query;
